@@ -1,9 +1,11 @@
-coordinates1 = [1,1]
-coordinateslist = [
-    [2,2],[3,4],[4,4],[5,4],[1,2],[1,1],[2],[1]
-]
-coordinateslist2 = [[1,1,1,1]]
-if coordinates1 in coordinateslist:
-    print("in coordinateslist1")
-if coordinates1 in coordinateslist2:
-    print("shit")
+class obj1:
+    pimmel = 1
+    peter = 2
+
+class obj2:
+    def pimmelplus1(pimmel):
+        pimmel += 1
+
+obj2.pimmelplus1(obj1.pimmel)
+
+print(obj1.pimmel)
