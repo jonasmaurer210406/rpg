@@ -23,7 +23,8 @@ class snake:
 def check_for_death(field, snake):
     if snake.position[0] or snake.position[1] < 0:
         snake.alive = False
-    if snake.position in snake.tail
+    if snake.position in snake.tail:
+        snake.alive = False
 
 def gameloop(snake):
     while snake.alive == True:
@@ -34,7 +35,7 @@ field_width = 40
 
 # init snake
 snake_position = [int(field_width),int(field_height)snake_lenght = 1]
-snake_lenght = 1
+snake_lenght = 2
 dirmap = {
     1: "right",
     2: "up",

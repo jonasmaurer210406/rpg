@@ -1,5 +1,9 @@
-list1 = [20,20]
-list2 = [1,-1]
-
-addedlist = [list1[0]+list2[0],list1[1]+list2[1]]
-print(addedlist)
+coordinates1 = [1,1]
+coordinateslist = [
+    [2,2],[3,4],[4,4],[5,4],[1,2],[1,1],[2],[1]
+]
+coordinateslist2 = [[1,1,1,1]]
+if coordinates1 in coordinateslist:
+    print("in coordinateslist1")
+if coordinates1 in coordinateslist2:
+    print("shit")
