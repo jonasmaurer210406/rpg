@@ -1,5 +1,5 @@
-import random
+tni = 4
 
-itn = random.randint(1,20)
+tni = tni +1
 
-print(type(itn))
+print(tni)
