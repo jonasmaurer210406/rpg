@@ -6,25 +6,46 @@ import sqlite3
 
 # coordinates as [x,y] (horizontal,vertical)
 
-class field:
+class fieldclass:
     def __init__(self,size,apples_target):
         self.size = size #coordinates
         self.apples = [] #list of coordinates, appended till apples_target is reached
         self.apples_target = apples_target #specifies how many apples there shall be
 
-    def apples_spawn(snake):
+    def apples_spawn(self,snake):
         while len(self.apples) < self.apples_target:
             newapple = [random.randint(1,self.size[0]),random.randint(1,self.size[1])]
             if newapple not in snake.tail and newapple != snake.position and newapple not in self.apples:
                 self.apples.append(newapple)
 
-    def check_for_eaten_apples(snake):
+    def check_for_eaten_apples(self,snake):
         for apple in self.apples[:]:
             if apple == snake.position:
                 self.apples.remove(apple)
                 snake.length = snake.length + 1
 
-class snake:
+    def render(self,snake):
+        canvas = ""
+        counter1 = 1
+        counter2 = 1
+        while counter1 > self.size[1] + 1:
+            while counter2 > self.size[0]:
+                pos = [counter2,counter1]
+                if pos in snake.tail:
+                    symbol = '*'
+                if pos == snake.tail:
+                    symbol = "0"
+                if pos in self.apples:
+                    symbol = "+"
+                if not (self.size[0] >= counter1 > 0 and self.size[1] >= counter2 > 0):
+                    symbol = "#"
+                else:
+                    symbol = " "
+                canvas = canvas + symbol
+            counter1 = counter1 + 1
+            counter2 = 1
+
+class snakeclass:
     def __init__(self, position, length, direction, alive, tail):
         self.position = position    #list (coordinates)
         self.length = length        #int
@@ -45,44 +66,55 @@ class snake:
         prev_position = self.position
         #update actual position
         self.position = [self.position[0] + positional_change[0], self.position[1] + positional_change[1]]
+        self.update_tail(prev_position)
 
     def update_tail (self, previous):
         #this function assumes that the tail is a list of coordinates with the indexes 0 to length -2.
-        #the number of coordinates is self.length - 1 
-        #this function appends the previous position (given from the move method)
-        #then, if the the len of self.tail is < (length - 1 ) the 0 value is deleted and all other indexes are moved down by one/ all are appended to a new list, making sure that theyre still in the right order
-        #
-        # 
+        #the number of coordinates is self.length - 1
+        #this function appends the previous position (given from the move method
+        #use the pop method until the list has the desired length
+        #end of the list is the head end, low indexes are the tail end of the snake
+        tail_length = self.length - 1
+        self.tail.append(previous)
+        while len(self.tail) > tail_length:
+            self.tail.pop(0)
+
 
     def check_for_death (self,field):
-        if self.position[0] or self.position[1] <= 0:
+        if self.position[0] <= 0 or self.position[1] <= 0:
             self.alive = False
         if self.position[0] > field.size[0] or self.position[1] > field.size[1]:
             self.alive = False
         if self.position in self.tail:
             self.alive = False
 
-
-
-    def check_input():
-
+    def check_input(self):
+        valid_command = False
+        while valid_command == False:
+            command = input(">")
+            if command == "":
+                return
+            if command in ["right","left","up","down"]:
+                self.direction = command
+                valid_command = True
 
 
 def gameloop(snake,field):
     while snake.alive == True:
+        snake.check_input()
         snake.move()
-        check_for_death(snake,field)
-
-def check
+        snake.check_for_death(field)
+        field.check_for_eaten_apples(snake)
+        field.apples.spawn(snake)
+        field.render
 
 #main
 
-size = #extract it from config db
+size = [20,20]
+apples = 3
 
-field = field()
-
-snake_position = [int(field_width),int(field_height)]
-snake_lenght = 2
+snake_position = [int(field_width)/2,int(field_height)/2]
+snake_length = 2
 dirmap = {
     1: "right",
     2: "up",
@@ -90,6 +122,9 @@ dirmap = {
     4: "down"
 } #global
 snake_direction = dirmap[random.randint(1,4)]
-snake_alive =
+snake_alive = True
 
-snake = snake()
+snake = snakeclass(snake_position, snake_length, snake_direction, snake_alive, [])
+field = fieldclass(size,3)
+
+gameloop(snake,field)
