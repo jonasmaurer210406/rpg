@@ -1,7 +1,7 @@
 import random
 import queue
 import time
-from pynput import keyboard
+#from pynput import keyboard
 import sqlite3
 
 # coordinates as [x,y] (horizontal,vertical)
@@ -26,24 +26,27 @@ class fieldclass:
 
     def render(self,snake):
         canvas = ""
-        counter1 = 1
-        counter2 = 1
-        while counter1 > self.size[1] + 1:
-            while counter2 > self.size[0]:
+        counter1 = 0
+        counter2 = 0
+        while counter1 <= self.size[1] + 1:
+            while counter2 <= self.size[0]+1:
                 pos = [counter2,counter1]
                 if pos in snake.tail:
                     symbol = '*'
-                if pos == snake.tail:
+                elif pos == snake.position:
                     symbol = "0"
-                if pos in self.apples:
+                elif pos in self.apples:
                     symbol = "+"
-                if not (self.size[0] >= counter1 > 0 and self.size[1] >= counter2 > 0):
+                elif not (self.size[0] >= counter1 > 0 and self.size[1] >= counter2 > 0):
                     symbol = "#"
                 else:
                     symbol = " "
                 canvas = canvas + symbol
+                counter2 = counter2 + 1
             counter1 = counter1 + 1
-            counter2 = 1
+            canvas = canvas + "\n"
+            counter2 = 0
+        print(canvas)
 
 class snakeclass:
     def __init__(self, position, length, direction, alive, tail):
@@ -89,6 +92,7 @@ class snakeclass:
             self.alive = False
 
     def check_input(self):
+        opposites =
         valid_command = False
         while valid_command == False:
             command = input(">")
@@ -97,23 +101,25 @@ class snakeclass:
             if command in ["right","left","up","down"]:
                 self.direction = command
                 valid_command = True
+            else:
+                print("nahhh")
 
 
 def gameloop(snake,field):
     while snake.alive == True:
+        field.render(snake)
         snake.check_input()
         snake.move()
         snake.check_for_death(field)
         field.check_for_eaten_apples(snake)
-        field.apples.spawn(snake)
-        field.render
+        field.apples_spawn(snake)
 
 #main
 
 size = [20,20]
 apples = 3
 
-snake_position = [int(field_width)/2,int(field_height)/2]
+snake_position = [size[0]/2,size[1]/2]
 snake_length = 2
 dirmap = {
     1: "right",
