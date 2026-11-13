@@ -91,19 +91,31 @@ class snakeclass:
         if self.position in self.tail:
             self.alive = False
 
+
     def check_input(self):
-        opposites =
         valid_command = False
         while valid_command == False:
             command = input(">")
             if command == "":
                 return
-            if command in ["right","left","up","down"]:
-                self.direction = command
-                valid_command = True
+            elif command in ["right","left","up","down"]:
+                if are_opposites(self.direction,command) == False:
+                    self.direction = command
+                    valid_command = True
+                else:
+                    print("cant go the opposite of you direction")
             else:
-                print("nahhh")
+                print("not valid direction")
 
+
+def are_opposites(first, second):
+    opposites = [["left", "right"], ["up", "down"]]
+    for pair in opposites:
+        if first == pair[0] and second == pair[1]:
+            return True
+        if first == pair[1] and second == pair[0]:
+            return True
+    return False
 
 def gameloop(snake,field):
     while snake.alive == True:
@@ -113,7 +125,6 @@ def gameloop(snake,field):
         snake.check_for_death(field)
         field.check_for_eaten_apples(snake)
         field.apples_spawn(snake)
-
 #main
 
 size = [20,20]

@@ -31,19 +31,19 @@ def render(field,snake):
         counter1 = counter1 + 1
         canvas = canvas + "\n"
         counter2 = 0
-    #print(canvas)
+    print(canvas)
 
 counter = 0
 frametimes = []
-while counter < 1000:
-    start = time.time()
-    render(field,snake)
-    end = time.time()
-    frametime = end - start
-    print(f"Frametime: {frametime} seconds")
-    frametimes.append(frametime)
-    counter += 1
-average_frametime = sum(frametimes) / len(frametimes)
-average_fps = 1 / average_frametime
-
-print(f"average Frametime: {average_frametime} \naverage FPS: {average_fps}")
+start = time.time()
+render(field,snake)
+end = time.time()
+frametime = end - start
+print(f"Frametime: {frametime} seconds")
+#frametimes.append(frametime)
+#counter += 1
+#average_frametime = sum(frametimes) / len(frametimes)
+#average_fps = 1 / average_frametime
+#
+#print(f"average Frametime: {average_frametime} \naverage FPS: {average_fps}")
+#
